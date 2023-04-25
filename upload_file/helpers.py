@@ -1,6 +1,7 @@
 from PIL import Image
 
 
+
 MAX_THUMBNAIL_SIZE = 200
 
 def resize_logo(instance):
@@ -22,6 +23,8 @@ def resize_logo(instance):
             Image.ANTIALIAS
         )
         image.save(filename)
+
+
 
 
 

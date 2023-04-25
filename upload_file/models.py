@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core import validators
 from datetime import datetime
-from moviepy.editor import *
 
 from .helpers import resize_logo
 
@@ -28,7 +27,7 @@ def user_files(instance, filename):
 class UploadFiles(models.Model):
     author = models.ForeignKey(to=User, null=True, related_name='post', on_delete=models.SET_NULL)
     name = models.CharField(max_length=25)
-    logo = models.ImageField(upload_to=user_image, null=True)
+    logo = models.ImageField(upload_to=user_image, null=True, height_field=None, width_field=None)
     files = models.FileField(upload_to=user_files,
                              null=True,
                              validators=[validators.FileExtensionValidator(['txt', 'pdf'],
@@ -48,8 +47,6 @@ class UploadFiles(models.Model):
         # Приводит размеры лого к одному виду - 200px по наибольшей стороне
         if self.logo:
             resize_logo(self)
-
-
 
 
     class Meta:
