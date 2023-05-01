@@ -1,12 +1,21 @@
 from django.contrib import admin
-from .models import UploadFiles
+from .models import UploadFiles, UploadVideo, UploadImage
 
 
-class UploadAdmin(admin.ModelAdmin):
-    fields = ['author', 'name', 'files', 'logo', 'video']
+class UploadFilesAdmin(admin.ModelAdmin):
+    fields = ['author', 'name', 'files']
 
 
+class UploadImageAdmin(admin.ModelAdmin):
+    fields = ['author', 'name', 'logo']
 
-admin.site.register(UploadFiles, UploadAdmin)
+
+class UploadVideoAdmin(admin.ModelAdmin):
+    fields = ['author', 'name', 'video']
+
+
+admin.site.register(UploadFiles, UploadFilesAdmin)
+admin.site.register(UploadImage, UploadImageAdmin)
+admin.site.register(UploadVideo, UploadVideoAdmin)
 
 # Register your models here.

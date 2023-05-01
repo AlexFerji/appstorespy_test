@@ -38,20 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+    'dj_rest_auth',
     'rest_framework',
     'rest_framework.authtoken',
-    'dj_rest_auth',
     'moviepy',
 
     'upload_file',
 ]
 
-SITE_ID = 1
 
 
 MIDDLEWARE = [
@@ -94,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'appdb',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': '394822sid',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -152,6 +152,13 @@ REST_FRAMEWORK = {
     )
 
 }
+
+REST_SESSION_LOGIN = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 
 REST_AUTH = {

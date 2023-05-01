@@ -11,10 +11,12 @@ def user_video(instance, filename):
     saved_file_name = instance.author.username + "-" + date_time + filename
     return 'profile/video/{0}/{1}'.format(instance.author.username, saved_file_name, filename)
 
+
 def user_image(instance, filename):
     date_time = datetime.now().strftime("%Y_%m_%d,%H:%M:%S")
     saved_file_name = instance.author.username + "-" + date_time + filename
     return 'profile/image/{0}/{1}'.format(instance.author.username, saved_file_name, filename)
+
 
 def user_files(instance, filename):
     date_time = datetime.now().strftime("%Y_%m_%d,%H:%M:%S")
@@ -22,17 +24,13 @@ def user_files(instance, filename):
     return 'profile/files/{0}/{1}'.format(instance.author.username, saved_file_name, filename)
 
 
-
-
 class UploadFiles(models.Model):
     author = models.ForeignKey(to=User, null=True, related_name='post', on_delete=models.SET_NULL)
     name = models.CharField(max_length=25)
-    logo = models.ImageField(upload_to=user_image, null=True, height_field=None, width_field=None)
     files = models.FileField(upload_to=user_files,
                              null=True,
                              validators=[validators.FileExtensionValidator(['txt', 'pdf'],
                                                                            message='fiels должен быть формата txt или pdf')])
-    video = models.FileField(upload_to=user_video, null=True)
     info = models.CharField(max_length=500, null=True)
 
 
@@ -40,17 +38,32 @@ class UploadFiles(models.Model):
         return f'{self.name} by {self.author.username}'
 
 
-    def save(self, *args, **kwargs):
-        # Сначала модель нужно сохранить, иначе изменять/обновлять будет нечего
-        super(UploadFiles, self).save(*args, **kwargs)
+class UploadImage(models.Model):
+    author = models.ForeignKey(to=User, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=25)
+    logo = models.ImageField(upload_to=user_image, null=True, height_field=None, width_field=None)
+    info = models.CharField(max_length=300)
 
-        # Приводит размеры лого к одному виду - 200px по наибольшей стороне
+
+    def __str__(self):
+        return f'{self.name} by {self.author.username}'
+
+
+    def save(self, *args, **kwargs):
+        super(UploadImage, self).save(*args, **kwargs)
+
         if self.logo:
             resize_logo(self)
 
 
-    class Meta:
-        app_label = 'upload_file'
-        db_table = 'item'
-        verbose_name = 'элемент'
-        verbose_name_plural = 'элементы'
+class UploadVideo(models.Model):
+    author = models.ForeignKey(to=User, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=25)
+    video = models.FileField(upload_to=user_video, null=True)
+
+
+    def __str__(self):
+        return f'{self.name} by {self.author.username}'
+
+
+
